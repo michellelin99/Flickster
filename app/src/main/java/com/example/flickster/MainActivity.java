@@ -1,18 +1,22 @@
 package com.example.flickster;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.flickster.adapters.MovieAdapter;
 import com.example.flickster.models.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Headers;
@@ -23,12 +27,31 @@ public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity";
 
     List<Movie> movies;
+    MovieAdapter mAdapter;
+    RecyclerView rvMovies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        movies = new ArrayList<>();
+        rvMovies = findViewById(R.id.rv_movies);
 
+        //create adapter
+        mAdapter = new MovieAdapter(this, movies);
+
+        //set adapater on recycler view
+        rvMovies.setAdapter(mAdapter);
+
+        //set layout manager on the recycler view
+        rvMovies.setLayoutManager(new LinearLayoutManager(this));
+
+        getMovieList();
+
+    }
+
+
+    void getMovieList(){
         //create AsyncHttpClient to make API calls to moviedb
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(NOW_PLAYING_URL, new JsonHttpResponseHandler() {
@@ -40,7 +63,8 @@ public class MainActivity extends AppCompatActivity {
                     Log.i(TAG, "Results: " + results.toString());
 
                     //create list of movies
-                    movies = Movie.fromJsonArray(results);
+                    movies.addAll(Movie.fromJsonArray(results));
+                    mAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     Log.e(TAG, "Hit josn exception", e);
                     e.printStackTrace();
@@ -53,4 +77,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 }
