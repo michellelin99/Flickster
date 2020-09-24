@@ -18,6 +18,14 @@ public class Movie {
         overview = jsonObject.getString("overview");
     }
 
+    /**
+     * fromJsonArray
+     *
+     * creates a movie object from the movieJsonArray of JSONObjects
+     * @param movieJsonArray - array of JSON movie objects
+     * @return - list of movies
+     * @throws JSONException
+     */
     public static List<Movie> fromJsonArray(JSONArray movieJsonArray) throws JSONException{
         List<Movie> movies = new ArrayList<>();
 
