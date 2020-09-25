@@ -1,6 +1,7 @@
 package com.example.flickster.adapters;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,7 +65,16 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
         public void bind(Movie movie){
             mTitle.setText(movie.getTitle());
             mDescription.setText(movie.getOverview());
-            Glide.with(context).load(movie.getPosterPath()).into(mPoster);
+
+            int orientation = context.getResources().getConfiguration().orientation;
+
+            // use poster for portrait and backdrop for landscape
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                Glide.with(context).load(movie.getPosterPath()).into(mPoster);
+
+            } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                Glide.with(context).load(movie.getBackdropPath()).into(mPoster);
+            }
         }
     }
 
