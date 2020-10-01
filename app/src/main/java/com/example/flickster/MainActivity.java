@@ -1,6 +1,7 @@
 package com.example.flickster;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +12,7 @@ import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.flickster.adapters.MovieAdapter;
 import com.example.flickster.models.Movie;
+import com.example.flickster.models.VerticalSpaceItemDecoration;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,10 +27,12 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String NOW_PLAYING_URL = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
     public static final String TAG = "MainActivity";
+    private static final int VERTICAL_SPACE = 48;
 
     List<Movie> movies;
     MovieAdapter mAdapter;
     RecyclerView rvMovies;
+    LinearLayoutManager mManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +48,24 @@ public class MainActivity extends AppCompatActivity {
         rvMovies.setAdapter(mAdapter);
 
         //set layout manager on the recycler view
-        rvMovies.setLayoutManager(new LinearLayoutManager(this));
+        mManager = new LinearLayoutManager((this));
+        rvMovies.setLayoutManager(mManager);
+
+        //set dividers between items -- TODO FIX
+        VerticalSpaceItemDecoration dividerItemDecoration = new VerticalSpaceItemDecoration(VERTICAL_SPACE);
+        rvMovies.addItemDecoration(dividerItemDecoration);
 
         getMovieList();
 
     }
 
 
+    /**
+     * getMovieList
+     *
+     * makes GET request to the movie db and grabs all movies and add it to the
+     * movies arraylist.
+     */
     void getMovieList(){
         //create AsyncHttpClient to make API calls to moviedb
         AsyncHttpClient client = new AsyncHttpClient();
@@ -76,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.e(TAG, "Error with API call");
             }
         });
+
     }
 
 }

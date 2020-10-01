@@ -1,20 +1,28 @@
 package com.example.flickster.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.example.flickster.DetailActivity;
 import com.example.flickster.R;
 import com.example.flickster.models.Movie;
+import com.example.flickster.models.MyAppGlide;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -50,6 +58,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
+        RelativeLayout container;
         TextView mTitle;
         TextView mDescription;
         ImageView mPoster;
@@ -60,21 +69,44 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
             mTitle = itemView.findViewById(R.id.movie_title);
             mDescription = itemView.findViewById(R.id.movie_description);
             mPoster = itemView.findViewById(R.id.movie_poster);
+            container = itemView.findViewById(R.id.rl_movie);
         }
 
-        public void bind(Movie movie){
+        public void bind(final Movie movie){
             mTitle.setText(movie.getTitle());
             mDescription.setText(movie.getOverview());
 
             int orientation = context.getResources().getConfiguration().orientation;
 
             // use poster for portrait and backdrop for landscape
+            String path = "";
             if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                Glide.with(context).load(movie.getPosterPath()).into(mPoster);
+                path = movie.getPosterPath();
 
             } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                Glide.with(context).load(movie.getBackdropPath()).into(mPoster);
+                path = movie.getBackdropPath();
             }
+
+            //load iamge into poster view
+            int radius = 30;
+            Glide.with(context)
+                    .load(path)
+                    .centerCrop()
+                    .transform(new RoundedCorners(radius))
+                    .placeholder(R.drawable.ic_launcher_background)
+                    .into(mPoster);
+
+
+            //register on click listener on the whole container
+            //navigates to a new activity
+            container.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(context, DetailActivity.class);
+                    i.putExtra("movie", Parcels.wrap(movie));
+                    context.startActivity(i);
+                }
+            });
         }
     }
 

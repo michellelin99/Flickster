@@ -15,7 +15,8 @@
         android:layout_height="wrap_content"
         android:text="Movie Title!"
         android:textSize="24sp"
-        android:layout_toRightOf="@id/movie_poster"/>
+        android:layout_toRightOf="@id/movie_poster"
+        />
 
     <TextView
         android:id="@+id/movie_description"
@@ -32,6 +33,7 @@
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="8dp"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"/>
 
 </RelativeLayout>
