@@ -1,6 +1,7 @@
 package com.example.flickster;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
 import android.widget.RatingBar;
@@ -40,10 +41,17 @@ public class DetailActivity extends YouTubeBaseActivity {
         mOverview = findViewById(R.id.overview);
         mYoutubePlayer = findViewById(R.id.player);
 
+
         //get movie obj details
         Movie movie = Parcels.unwrap(getIntent().getParcelableExtra("movie"));
+        mTitle.setText(movie.getTitle());
         mOverview.setText(movie.getOverview());
         mRating.setRating((float) movie.getRating());
+
+        // set toolbar title to current movie
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        TextView toolbarTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        toolbarTitle.setText(movie.getTitle());
 
         //make new request to Youtube endpoint for video key
         AsyncHttpClient client = new AsyncHttpClient();

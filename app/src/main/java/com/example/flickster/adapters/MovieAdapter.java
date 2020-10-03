@@ -69,7 +69,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>{
             mTitle = itemView.findViewById(R.id.movie_title);
             mDescription = itemView.findViewById(R.id.movie_description);
             mPoster = itemView.findViewById(R.id.movie_poster);
-            container = itemView.findViewById(R.id.rl_movie);
+            container = itemView.findViewById(R.id.container);
         }
 
         public void bind(final Movie movie){

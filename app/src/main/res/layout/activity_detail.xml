@@ -4,9 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="12dp"
+    android:background="#131313"
     android:orientation="vertical"
     tools:context=".DetailActivity">
+
+    <include
+        layout="@layout/toolbar_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 
     <com.google.android.youtube.player.YouTubePlayerView
         android:id="@+id/player"
@@ -17,21 +23,29 @@
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="12dp"
         android:text="TextView"
+        android:textColor="#FFFFFF"
         android:textSize="30sp" />
 
     <RatingBar
         android:id="@+id/ratingBar"
+        style="@style/Widget.AppCompat.RatingBar.Indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="12dp"
         android:isIndicator="true"
         android:numStars="10"
-        android:rating="3.5" />
+        android:progressTint="#99A523"
+        android:rating="3.5"
+        android:textAlignment="center" />
 
     <TextView
         android:id="@+id/overview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="overview" />
+        android:layout_margin="12dp"
+        android:text="overview"
+        android:textColor="#FFFFFF" />
 
 </LinearLayout>

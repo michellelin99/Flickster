@@ -46,7 +46,7 @@ public class Movie {
 
     /**
      * fromJsonArray
-     * <p>
+     *
      * creates a movie object from the movieJsonArray of JSONObjects
      *
      * @param movieJsonArray - array of JSON movie objects
